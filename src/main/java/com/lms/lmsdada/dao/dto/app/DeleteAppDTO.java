@@ -1,8 +1,9 @@
-package com.lms.lmsdada.dao.dto;
+package com.lms.lmsdada.dao.dto.app;
 
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.io.Serializable;
 
@@ -18,7 +19,9 @@ public class DeleteAppDTO implements Serializable {
 
     /**
      * id
-     */@Positive(message = "id不合法")
+     */
+    @NotNull(message = "id不能为空")
+    @Positive(message = "id不合法")
     private Long id;
 
     private static final long serialVersionUID = 1L;

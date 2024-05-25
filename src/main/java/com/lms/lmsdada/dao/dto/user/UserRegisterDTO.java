@@ -1,4 +1,4 @@
-package com.lms.lmsdada.dao.dto;
+package com.lms.lmsdada.dao.dto.user;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
