@@ -1,4 +1,4 @@
-package com.lms.sqlfather.controller;
+package com.lms.lmsdada.controller;
 
 import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.stp.StpUtil;
@@ -6,12 +6,12 @@ import cn.hutool.core.io.FileUtil;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.lms.contants.HttpCode;
 import com.lms.exception.BusinessException;
-import com.lms.lmscommon.constant.FileConstant;
-import com.lms.lmscommon.model.dto.file.UploadFileRequest;
-import com.lms.lmscommon.model.enums.FileUploadBizEnum;
+import com.lms.lmsdada.client.OssClient;
+import com.lms.lmsdada.constant.FileConstant;
+import com.lms.lmsdada.dao.dto.UploadFileDTO;
+import com.lms.lmsdada.dao.enums.FileUploadBizEnum;
 import com.lms.result.EnableResponseAdvice;
-import com.lms.sqlfather.annotation.IgnoreLog;
-import com.lms.sqlfather.client.OssClient;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
@@ -53,9 +53,8 @@ public class FileController {
     @SaCheckLogin
     @ApiOperationSupport(order = 1)
     @ApiOperation(value = "上传文件")
-    @IgnoreLog
     public String uploadFile(@RequestPart("file") MultipartFile multipartFile,
-                             UploadFileRequest uploadFileRequest) {
+                             UploadFileDTO uploadFileRequest) {
         String biz = uploadFileRequest.getBiz();
         FileUploadBizEnum fileUploadBizEnum = FileUploadBizEnum.getEnumByValue(biz);
         if (fileUploadBizEnum == null) {

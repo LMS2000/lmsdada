@@ -1,4 +1,4 @@
-package com.lms.lmscommon.model.enums;
+package com.lms.lmsdada.dao.enums;
 
 import org.apache.commons.lang3.ObjectUtils;
 

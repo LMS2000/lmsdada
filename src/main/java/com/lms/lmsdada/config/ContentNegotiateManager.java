@@ -1,4 +1,4 @@
-package com.lms.sqlfather.config;
+package com.lms.lmsdada.config;
 
 import org.springframework.http.MediaTypeFactory;
 

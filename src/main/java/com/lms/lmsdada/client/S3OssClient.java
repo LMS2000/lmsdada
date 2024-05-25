@@ -1,4 +1,4 @@
-package com.lms.sqlfather.client;
+package com.lms.lmsdada.client;
 
 
 import com.amazonaws.services.s3.AmazonS3;

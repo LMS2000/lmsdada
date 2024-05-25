@@ -1,4 +1,4 @@
-package com.lms.lmscommon.constant;
+package com.lms.lmsdada.constant;
 
 /**
  * 用户常量

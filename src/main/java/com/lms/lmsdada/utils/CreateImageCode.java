@@ -1,4 +1,4 @@
-package com.lms.lmscommon.utils;
+package com.lms.lmsdada.utils;
 
 import javax.imageio.ImageIO;
 import java.awt.*;

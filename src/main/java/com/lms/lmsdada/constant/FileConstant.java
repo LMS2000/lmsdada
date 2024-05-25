@@ -1,4 +1,4 @@
-package com.lms.lmscommon.constant;
+package com.lms.lmsdada.constant;
 
 /**
  * 文件相关的常量

@@ -1,4 +1,4 @@
-package com.lms.sqlfather.config;
+package com.lms.lmsdada.config;
 
 import cn.dev33.satoken.interceptor.SaInterceptor;
 import org.springframework.context.annotation.Configuration;

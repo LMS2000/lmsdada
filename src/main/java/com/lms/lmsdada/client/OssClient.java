@@ -1,10 +1,11 @@
-package com.lms.sqlfather.client;
+package com.lms.lmsdada.client;
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectResult;
 import com.amazonaws.services.s3.model.S3Object;
-import com.lms.sqlfather.config.ContentNegotiateManager;
+import com.lms.lmsdada.config.ContentNegotiateManager;
+
 
 import java.io.IOException;
 import java.io.InputStream;

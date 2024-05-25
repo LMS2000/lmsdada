@@ -1,4 +1,4 @@
-package com.lms.sqlfather.config;
+package com.lms.lmsdada.config;
 
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.AWSCredentialsProvider;
@@ -7,8 +7,9 @@ import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.client.builder.AwsClientBuilder;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
-import com.lms.sqlfather.client.OssClient;
-import com.lms.sqlfather.client.S3OssClient;
+
+import com.lms.lmsdada.client.OssClient;
+import com.lms.lmsdada.client.S3OssClient;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
