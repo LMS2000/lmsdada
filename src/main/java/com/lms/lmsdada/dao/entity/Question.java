@@ -13,9 +13,6 @@ import com.baomidou.mybatisplus.annotation.TableName;
 @EqualsAndHashCode(callSuper = true)
 @TableName(value = "question")
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class Question extends BaseEntity {
 
     private static final long serialVersionUID = 1L;

@@ -2,10 +2,7 @@ package com.lms.lmsdada.dao.factory;
 
 import com.lms.lmsdada.dao.entity.UserAnswer;
 import com.lms.lmsdada.dao.vo.UserAnswerVO;
-import org.mapstruct.IterableMapping;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.Mappings;
+import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;
@@ -21,11 +18,9 @@ public class UserAnswerFactory {
 
     @Mapper
     public interface UserAnswerConverter {
-        @Mappings({
 
-        })
         @Mapping(target = "choices",  expression = "java(com.lms.lmsdada.utils.MapStructUtil.convertToChoices(entity.getChoices()))")
-
+        @Named("toUserAnswerVO")
         UserAnswerVO toUserAnswerVO(UserAnswer entity);
         @IterableMapping(qualifiedByName = "toUserAnswerVO")
         List<UserAnswerVO> toListUserAnswerVO(List<UserAnswer> entityList);

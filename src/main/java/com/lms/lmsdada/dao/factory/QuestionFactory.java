@@ -2,10 +2,7 @@ package com.lms.lmsdada.dao.factory;
 
 import com.lms.lmsdada.dao.entity.Question;
 import com.lms.lmsdada.dao.vo.QuestionVO;
-import org.mapstruct.IterableMapping;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.Mappings;
+import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;
@@ -21,10 +18,9 @@ public class QuestionFactory {
 
     @Mapper
     public interface QuestionConverter {
-        @Mappings({
 
-        })
         @Mapping(target = "questionContent",  expression = "java(com.lms.lmsdada.utils.MapStructUtil.convertToQuestionContents(entity.getQuestionContent()))")
+        @Named("toQuestionVO")
         QuestionVO toQuestionVO(Question entity);
         @IterableMapping(qualifiedByName = "toQuestionVO")
         List<QuestionVO> toListQuestionVO(List<Question> entityList);

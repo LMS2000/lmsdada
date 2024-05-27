@@ -19,30 +19,38 @@ public class MapStructUtil {
     /**
      * 转换为modelconfig
      *
-     * @param json
+     * @param questionContents
      * @return
      */
     @Named("convertToQuestionContents")
-    public static List<QuestionContentDTO> convertToQuestionContents(String json) {
-        if(StrUtil.isEmpty(json)){
+    public static List<QuestionContentDTO> convertToQuestionContents(String questionContents) {
+        if(StrUtil.isEmpty(questionContents)){
             return null;
         }
-        return JSONUtil.toList(json, QuestionContentDTO.class);
+        return JSONUtil.toList(questionContents, QuestionContentDTO.class);
     }
 
-    @Named("convertToResultProp")
-    public static List<String> convertToresultProp(String json){
-        if(StrUtil.isEmpty(json)){
+
+
+    /**
+     * 将 json字符串的tags转换为List<String>
+     *
+     * @param tags
+     * @return
+     */
+    @Named("convertToList")
+    public static List<String> convertToList(String tags) {
+        if(StrUtil.isEmpty(tags)){
             return null;
         }
-        return JSONUtil.toList(json,String.class);
+        return convertToClass(tags, List.class);
     }
     @Named("convertToChoices")
-    public static List<String> convertToChoices(String json){
-        if(StrUtil.isEmpty(json)){
+    public static List<String> convertToChoices(String choices){
+        if(StrUtil.isEmpty(choices)){
             return null;
         }
-        return JSONUtil.toList(json,String.class);
+        return JSONUtil.toList(choices,String.class);
     }
     public static <T> T convertToClass(String source, Class<?> clazz) {
         try {
@@ -53,5 +61,12 @@ public class MapStructUtil {
         } catch (JsonProcessingException e) {
             throw new BusinessException(HttpCode.OPERATION_ERROR,e.getMessage());
         }
+    }
+    @Named("convertToResultProp")
+    public static List<String> convertToResultProp(String resultProp) {
+        if(StrUtil.isEmpty(resultProp)){
+            return null;
+        }
+        return JSONUtil.toList(resultProp,String.class);
     }
 }

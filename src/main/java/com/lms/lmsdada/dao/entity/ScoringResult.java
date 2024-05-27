@@ -13,9 +13,6 @@ import com.baomidou.mybatisplus.annotation.TableName;
 @EqualsAndHashCode(callSuper = true)
 @TableName(value = "scoring_result")
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class ScoringResult extends BaseEntity {
 
     private static final long serialVersionUID = 1L;
