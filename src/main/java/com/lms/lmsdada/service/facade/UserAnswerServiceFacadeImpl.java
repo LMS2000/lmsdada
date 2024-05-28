@@ -23,6 +23,7 @@ import com.lms.lmsdada.dao.enums.ReviewStatusEnum;
 import com.lms.lmsdada.dao.vo.ScoringResultVO;
 import com.lms.lmsdada.dao.vo.UserAnswerVO;
 import com.lms.lmsdada.dao.vo.UserVO;
+import com.lms.lmsdada.scoring.ScoringStrategyExecutor;
 import com.lms.lmsdada.service.AppService;
 import com.lms.lmsdada.service.UserAnswerService;
 import com.lms.lmsdada.service.UserService;
@@ -50,6 +51,8 @@ public class UserAnswerServiceFacadeImpl {
     private final UserAnswerService userAnswerService;
 
     private final AppService appService;
+
+    private final ScoringStrategyExecutor scoringStrategyExecutor;
 
     /**
      * 删除题目
@@ -82,37 +85,37 @@ public class UserAnswerServiceFacadeImpl {
      * @param uid
      * @return
      */
-//    public Long createUserAnswer(CreateUserAnswerDTO createUserAnswerDTO,Long uid){
-//        UserAnswer userAnswer = new UserAnswer();
-//        BeanUtils.copyProperties(createUserAnswerDTO, userAnswer);
-//        List<String> choices = createUserAnswerDTO.getChoices();
-//        userAnswer.setChoices(JSONUtil.toJsonStr(choices));
-//        // 数据校验
-//        // 判断 app 是否存在
-//        Long appId = createUserAnswerDTO.getAppId();
-//        App app = appService.getById(appId);
-//        BusinessException.throwIf(app == null, HttpCode.NOT_FOUND_ERROR);
-//        if (!ReviewStatusEnum.PASS.equals(ReviewStatusEnum.getEnumByValue(app.getReviewStatus()))) {
-//            throw new BusinessException(HttpCode.NO_AUTH_ERROR, "应用未通过审核，无法答题");
-//        }
-//        // 填充默认值
-//
-//        userAnswer.setUserId(uid);
-//        // 写入数据库
-//        boolean result = userAnswerService.save(userAnswer);
-//        BusinessException.throwIf(!result, HttpCode.OPERATION_ERROR);
-//        // 返回新写入的数据 id
-//        long newUserAnswerId = userAnswer.getId();
-//        // 调用评分模块
-//        try {
-//            UserAnswer userAnswerWithResult = scoringStrategyExecutor.doScore(choices, app);
-//            userAnswerWithResult.setId(newUserAnswerId);
-//            userAnswerService.updateById(userAnswerWithResult);
-//        } catch (Exception e) {
-//            throw new BusinessException(HttpCode.OPERATION_ERROR, "评分错误");
-//        }
-//        return newUserAnswerId;
-//    }
+    public Long createUserAnswer(CreateUserAnswerDTO createUserAnswerDTO,Long uid){
+        UserAnswer userAnswer = new UserAnswer();
+        BeanUtils.copyProperties(createUserAnswerDTO, userAnswer);
+        List<String> choices = createUserAnswerDTO.getChoices();
+        userAnswer.setChoices(JSONUtil.toJsonStr(choices));
+        // 数据校验
+        // 判断 app 是否存在
+        Long appId = createUserAnswerDTO.getAppId();
+        App app = appService.getById(appId);
+        BusinessException.throwIf(app == null, HttpCode.NOT_FOUND_ERROR);
+        if (!ReviewStatusEnum.PASS.equals(ReviewStatusEnum.getEnumByValue(app.getReviewStatus()))) {
+            throw new BusinessException(HttpCode.NO_AUTH_ERROR, "应用未通过审核，无法答题");
+        }
+        // 填充默认值
+
+        userAnswer.setUserId(uid);
+        // 写入数据库
+        boolean result = userAnswerService.save(userAnswer);
+        BusinessException.throwIf(!result, HttpCode.OPERATION_ERROR);
+        // 返回新写入的数据 id
+        long newUserAnswerId = userAnswer.getId();
+        // 调用评分模块
+        try {
+            UserAnswer userAnswerWithResult = scoringStrategyExecutor.doScore(choices, app);
+            userAnswerWithResult.setId(newUserAnswerId);
+            userAnswerService.updateById(userAnswerWithResult);
+        } catch (Exception e) {
+            throw new BusinessException(HttpCode.OPERATION_ERROR, "评分错误");
+        }
+        return newUserAnswerId;
+    }
 
 
     /**
@@ -178,7 +181,6 @@ public class UserAnswerServiceFacadeImpl {
     /**
      * 分页查询(管理员)
      * @param queryUserAnswerDTO
-     * @param uid
      * @return
      */
     public IPage<UserAnswerVO> getPageVOForAdmin(QueryUserAnswerDTO queryUserAnswerDTO){

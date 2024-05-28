@@ -174,7 +174,6 @@ public class AppServiceFacadeImpl {
     /**
      * 分页查询(管理员)
      * @param queryAppDTO
-     * @param uid
      * @return
      */
     public IPage<AppVO> getPageVOForAdmin(QueryAppDTO queryAppDTO){
