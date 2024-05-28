@@ -11,11 +11,10 @@ import com.lms.lmsdada.constant.SqlConstant;
 import com.lms.contants.HttpCode;
 
 import com.lms.exception.BusinessException;
-import com.lms.lmsdada.dao.dto.question.CreateQuestionDTO;
-import com.lms.lmsdada.dao.dto.question.QueryQuestionDTO;
-import com.lms.lmsdada.dao.dto.question.QuestionContentDTO;
-import com.lms.lmsdada.dao.dto.question.UpdateQuestionDTO;
+import com.lms.lmsdada.dao.dto.question.*;
+import com.lms.lmsdada.dao.entity.App;
 import com.lms.lmsdada.dao.entity.Question;
+import com.lms.lmsdada.dao.enums.AppTypeEnum;
 import com.lms.lmsdada.dao.vo.QuestionVO;
 
 import com.lms.lmsdada.mapper.QuestionMapper;
@@ -121,6 +120,5 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
         // 返回新写入的数据 id
         return question.getId();
     }
-
 
 }

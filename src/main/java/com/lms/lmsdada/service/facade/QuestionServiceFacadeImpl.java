@@ -8,17 +8,16 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lms.contants.HttpCode;
 import com.lms.exception.BusinessException;
+import com.lms.lmsdada.config.AiManager;
 import com.lms.lmsdada.constant.SqlConstant;
 import com.lms.lmsdada.constant.UserConstant;
 import com.lms.lmsdada.dao.dto.app.DeleteAppDTO;
 import com.lms.lmsdada.dao.dto.app.UpdateAppDTO;
-import com.lms.lmsdada.dao.dto.question.DeleteQuestionDTO;
-import com.lms.lmsdada.dao.dto.question.EditQuestionDTO;
-import com.lms.lmsdada.dao.dto.question.QueryQuestionDTO;
-import com.lms.lmsdada.dao.dto.question.QuestionContentDTO;
+import com.lms.lmsdada.dao.dto.question.*;
 import com.lms.lmsdada.dao.entity.App;
 import com.lms.lmsdada.dao.entity.Question;
 import com.lms.lmsdada.dao.entity.User;
+import com.lms.lmsdada.dao.enums.AppTypeEnum;
 import com.lms.lmsdada.dao.vo.QuestionVO;
 import com.lms.lmsdada.dao.vo.UserVO;
 import com.lms.lmsdada.service.AppService;
@@ -31,12 +30,14 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import static com.lms.lmsdada.constant.AIConstant.GENERATE_QUESTION_SYSTEM_MESSAGE;
 import static com.lms.lmsdada.dao.factory.QuestionFactory.QUESTION_CONVERTER;
 import static com.lms.lmsdada.dao.factory.UserFactory.USER_CONVERTER;
 
@@ -49,6 +50,7 @@ public class QuestionServiceFacadeImpl {
     private final UserService userService;
 
     private final QuestionService questionService;
+    private final AiManager aiManager;
 
 
     /**
@@ -232,4 +234,43 @@ public class QuestionServiceFacadeImpl {
                 sortField);
         return queryWrapper;
     }
+
+    /**
+     * 生成题目的用户消息
+     *
+     * @param app
+     * @param questionNumber
+     * @param optionNumber
+     * @return
+     */
+    private String getGenerateQuestionUserMessage(App app, int questionNumber, int optionNumber) {
+        StringBuilder userMessage = new StringBuilder();
+        userMessage.append(app.getAppName()).append("\n");
+        userMessage.append(app.getAppDesc()).append("\n");
+        userMessage.append(AppTypeEnum.getEnumByValue(app.getAppType()).getText() + "类").append("\n");
+        userMessage.append(questionNumber).append("\n");
+        userMessage.append(optionNumber);
+        return userMessage.toString();
+    }
+    public List<QuestionContentDTO> aiGenerateQuestion(
+             AiGenerateQuestionDTO aiGenerateQuestionDTO) {
+
+        // 获取参数
+        Long appId = aiGenerateQuestionDTO.getAppId();
+        int questionNumber = aiGenerateQuestionDTO.getQuestionNumber();
+        int optionNumber = aiGenerateQuestionDTO.getOptionNumber();
+        // 获取应用信息
+        App app = appService.getById(appId);
+        BusinessException.throwIf(ObjectUtil.isEmpty(app), HttpCode.NOT_FOUND_ERROR);
+        // 封装 Prompt
+        String userMessage = getGenerateQuestionUserMessage(app, questionNumber, optionNumber);
+        // AI 生成
+        String result = aiManager.doSyncRequest(GENERATE_QUESTION_SYSTEM_MESSAGE, userMessage, null);
+        // 截取需要的 JSON 信息
+        int start = result.indexOf("[");
+        int end = result.lastIndexOf("]");
+        String json = result.substring(start, end + 1);
+        return JSONUtil.toList(json, QuestionContentDTO.class);
+    }
+
 }

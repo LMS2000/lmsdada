@@ -24,7 +24,7 @@ import static com.lms.lmsdada.dao.factory.QuestionFactory.QUESTION_CONVERTER;
  * @from <a href="https://www.code-nav.cn">编程导航学习圈</a>
  */
 @ScoringStrategyConfig(appType = 0, scoringStrategy = 0)
-public class CusteomScoringStrategy implements ScoringStrategy {
+public class CustomScoringStrategy implements ScoringStrategy {
     @Resource
     private QuestionService questionService;
 

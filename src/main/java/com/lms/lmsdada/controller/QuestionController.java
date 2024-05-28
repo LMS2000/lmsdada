@@ -127,4 +127,15 @@ public class QuestionController {
         return ResultUtils.success(questionServiceFacade.getQuestionVOById(id));
     }
 
+    /**
+     * AI生成题目
+     * @param aiGenerateQuestionDTO
+     * @return
+     */
+    @PostMapping("/ai/generate")
+    @ApiOperation(value = "AI生成")
+    public List<QuestionContentDTO> aiGenerateQuestion(@RequestBody AiGenerateQuestionDTO aiGenerateQuestionDTO) {
+        return questionServiceFacade.aiGenerateQuestion(aiGenerateQuestionDTO);
+    }
+
 }
